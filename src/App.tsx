@@ -4,7 +4,7 @@ import { Table } from "./components";
 function App() {
   return (
     <div>
-      <div className="flex items-center justify-between bg-[#e76f51] text-white p-6 font-poppins text-2xl">
+      <div className="flex items-center justify-between bg-primary text-white p-6 font-poppins text-2xl">
         <div className="logo">Data Visualization App</div>
         <p>Demo</p>
       </div>

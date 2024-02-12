@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
+import { Pagination } from "../components";
 import { getProducts } from "../service/productService";
 import { Product, ProductsResponse } from "../types";
 
@@ -8,6 +9,19 @@ const Table: React.FC = () => {
     queryKey: ["products"],
     queryFn: getProducts,
   });
+
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const rowsPerPage = 10;
+
+  const handlePageClick = (selectedItem: { selected: number }): void => {
+    setCurrentPage(selectedItem.selected);
+  };
+
+  const pageCount = data ? Math.ceil(data.products.length / rowsPerPage) : 0;
+  const products = data?.products.slice(
+    currentPage * rowsPerPage,
+    (currentPage + 1) * rowsPerPage
+  );
 
   if (isLoading)
     return (
@@ -25,7 +39,7 @@ const Table: React.FC = () => {
 
   const mobileTable = (
     <div>
-      {data?.products.map((product: Product) => (
+      {products?.map((product: Product) => (
         <div
           key={product.title}
           className="p-4 bg-white mr-4 ml-4 border-b even:bg-gray-50"
@@ -67,7 +81,7 @@ const Table: React.FC = () => {
           </tr>
         </thead>
         <tbody className="font-poppins text-base">
-          {data?.products.map((product: Product) => (
+          {products?.map((product: Product) => (
             <tr
               key={product.title}
               className="bg-white even:bg-gray-50 border-b text-black"
@@ -87,6 +101,7 @@ const Table: React.FC = () => {
     <div>
       <div className="sm:hidden">{mobileTable}</div>
       <div className="hidden sm:block">{desktopTable}</div>
+      <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
     </div>
   );
 };
