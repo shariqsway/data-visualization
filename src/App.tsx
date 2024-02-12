@@ -1,10 +1,19 @@
 import "./App.css";
+import { Table } from "./components";
 
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello World</h1>
-    </>
+    <div>
+      <div className="flex items-center justify-between bg-[#e76f51] text-white p-6 font-poppins text-2xl">
+        <div className="logo">Data Visualization App</div>
+        <p>Demo</p>
+      </div>
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-2/3">
+          <Table />
+        </div>
+      </div>
+    </div>
   );
 }
 
