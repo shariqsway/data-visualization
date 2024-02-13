@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { Pagination } from "../components";
+import { Checkbox, Pagination } from "../components";
 import { getProducts } from "../service/productService";
 import { Product, ProductsResponse } from "../types";
 
@@ -15,6 +15,10 @@ const Table: React.FC = () => {
 
   const handlePageClick = (selectedItem: { selected: number }): void => {
     setCurrentPage(selectedItem.selected);
+  };
+
+  const handleCheckboxChange = () => {
+    console.log("something changed.");
   };
 
   const pageCount = data ? Math.ceil(data.products.length / rowsPerPage) : 0;
@@ -45,6 +49,14 @@ const Table: React.FC = () => {
           className="p-4 bg-white mr-4 ml-4 border-b even:bg-gray-50"
         >
           <div>
+            <Checkbox
+              checked={true}
+              onChange={() => {
+                handleCheckboxChange();
+              }}
+            />
+          </div>
+          <div>
             <strong>Title:</strong> {product.title}
           </div>
           <div>
@@ -66,6 +78,7 @@ const Table: React.FC = () => {
       <table className="w-full text-base text-left text-gray-500 rounded-sm border mt-5">
         <thead className="text-base font-poppins text-gray-700 bg-gray-50">
           <tr>
+            <th scope="col" className="px-6 py-3 text-black"></th>
             <th scope="col" className="px-6 py-3 text-black">
               Title
             </th>
@@ -86,6 +99,14 @@ const Table: React.FC = () => {
               key={product.title}
               className="bg-white even:bg-gray-50 border-b text-black"
             >
+              <td className="px-6 py-4 whitespace-nowrap">
+                <Checkbox
+                  checked={true}
+                  onChange={() => {
+                    handleCheckboxChange();
+                  }}
+                />
+              </td>
               <td className="px-6 py-4 whitespace-nowrap">{product.title}</td>
               <td className="px-6 py-4">{product.brand}</td>
               <td className="px-6 py-4">{product.discountPercentage}%</td>
