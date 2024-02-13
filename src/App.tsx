@@ -8,8 +8,8 @@ function App() {
         <div className="logo">Data Visualization App</div>
         <p>Demo</p>
       </div>
-      <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-2/3">
+      <div className="flex flex-col md:flex-row mr-10 ml-10">
+        <div className="w-full">
           <Table />
         </div>
       </div>
