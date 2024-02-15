@@ -1,45 +1,42 @@
-import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
-import { Chart, Checkbox, Pagination } from "../components";
-import { getProducts } from "../service/productService";
-import { Product, ProductsResponse } from "../types";
+import React from "react";
+import { Checkbox, Loader } from "../components";
+import { Product } from "../types";
 
-const Table: React.FC = () => {
-  const { data, error, isLoading } = useQuery<ProductsResponse, Error>({
-    queryKey: ["products"],
-    queryFn: getProducts,
-  });
+interface TableProps {
+  products: Product[];
+  loading: boolean;
+  checkedProducts: { [key: number]: boolean };
+  setCheckedProducts: React.Dispatch<
+    React.SetStateAction<{ [key: number]: boolean }>
+  >;
+  onCheckboxChange: (productId: number, isChecked: boolean) => void;
+}
 
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const rowsPerPage = 10;
-
-  const handlePageClick = (selectedItem: { selected: number }): void => {
-    setCurrentPage(selectedItem.selected);
+const Table: React.FC<TableProps> = ({
+  products,
+  loading,
+  checkedProducts,
+  setCheckedProducts,
+  onCheckboxChange,
+}) => {
+  const handleCheckboxChange = (productId: number) => {
+    const newState = {
+      ...checkedProducts,
+      [productId]: !checkedProducts[productId],
+    };
+    setCheckedProducts(newState);
+    if (onCheckboxChange) {
+      onCheckboxChange(productId, newState[productId]);
+    }
   };
 
-  const handleCheckboxChange = () => {
-    console.log("something changed.");
-  };
-
-  const pageCount = data ? Math.ceil(data.products.length / rowsPerPage) : 0;
-  const products = data?.products.slice(
-    currentPage * rowsPerPage,
-    (currentPage + 1) * rowsPerPage
-  );
-
-  if (isLoading)
+  if (loading) {
     return (
-      <div>
-        <p>Loading Data ...</p>
+      <div className="w-full">
+        <Loader height="50" width="50" />
       </div>
     );
-
-  if (error)
-    return (
-      <div>
-        <p>An error occured getting products.</p>
-      </div>
-    );
+  }
 
   const mobileTable = (
     <div>
@@ -50,10 +47,8 @@ const Table: React.FC = () => {
         >
           <div>
             <Checkbox
-              checked={true}
-              onChange={() => {
-                handleCheckboxChange();
-              }}
+              checked={checkedProducts[product.id] || false}
+              onChange={() => handleCheckboxChange(product.id)}
             />
           </div>
           <div>
@@ -75,7 +70,7 @@ const Table: React.FC = () => {
 
   const desktopTable = (
     <div className="overflow-x-auto">
-      <table className="w-full text-base text-left text-gray-500 rounded-sm border mt-10">
+      <table className="w-full text-base text-left text-gray-500 rounded-lg border">
         <thead className="text-base font-poppins text-gray-700 bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3 text-black"></th>
@@ -101,10 +96,8 @@ const Table: React.FC = () => {
             >
               <td className="px-6 py-4 whitespace-nowrap">
                 <Checkbox
-                  checked={true}
-                  onChange={() => {
-                    handleCheckboxChange();
-                  }}
+                  checked={checkedProducts[product.id] || false}
+                  onChange={() => handleCheckboxChange(product.id)}
                 />
               </td>
               <td className="px-6 py-4 whitespace-nowrap">{product.title}</td>
@@ -124,8 +117,6 @@ const Table: React.FC = () => {
     <div>
       <div className="sm:hidden">{mobileTable}</div>
       <div className="hidden sm:block">{desktopTable}</div>
-      <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
-      {products && <Chart products={products} />}
     </div>
   );
 };

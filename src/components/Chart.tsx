@@ -32,7 +32,6 @@ const Chart: React.FC<ChartProps> = ({ products }) => {
           family: "Poppins, sans-serif",
           size: 13,
         },
-        yaxis: { title: "Price" },
       };
       Plotly.newPlot("chart", chart, layout);
     }

@@ -5,14 +5,19 @@ import ReactPaginate from "react-paginate";
 
 interface PaginationProps {
   pageCount: number;
+  forcePage: number;
   onPageChange: (selectedItem: { selected: number }) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  pageCount,
+  forcePage,
+  onPageChange,
+}) => {
   return (
     <ReactPaginate
       containerClassName={
-        "flex justify-center isolate -space-x-px rounded-md bg-transparent mb-10 mt-5"
+        "flex isolate -space-x-px rounded-md bg-transparent mb-10 mt-10"
       }
       previousLabel={<FaChevronLeft className="h-5 w-5" aria-hidden="true" />}
       nextLabel={<FaChevronRight className="h-5 w-5" aria-hidden="true" />}
@@ -21,9 +26,10 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
         "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300"
       }
       pageCount={pageCount}
+      forcePage={forcePage}
+      onPageChange={onPageChange}
       marginPagesDisplayed={2}
       pageRangeDisplayed={5}
-      onPageChange={onPageChange}
       pageClassName="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300"
       pageLinkClassName="block w-full h-full text-center"
       activeClassName="bg-primary hover:bg-primary text-white"
