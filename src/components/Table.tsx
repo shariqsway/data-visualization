@@ -5,31 +5,16 @@ import { Product } from "../types";
 interface TableProps {
   products: Product[];
   loading: boolean;
-  checkedProducts: { [key: number]: boolean };
-  setCheckedProducts: React.Dispatch<
-    React.SetStateAction<{ [key: number]: boolean }>
-  >;
+  checkedProductsDetails: Product[];
   onCheckboxChange: (productId: number, isChecked: boolean) => void;
 }
 
 const Table: React.FC<TableProps> = ({
   products,
   loading,
-  checkedProducts,
-  setCheckedProducts,
+  checkedProductsDetails,
   onCheckboxChange,
 }) => {
-  const handleCheckboxChange = (productId: number) => {
-    const newState = {
-      ...checkedProducts,
-      [productId]: !checkedProducts[productId],
-    };
-    setCheckedProducts(newState);
-    if (onCheckboxChange) {
-      onCheckboxChange(productId, newState[productId]);
-    }
-  };
-
   if (loading) {
     return (
       <div className="w-full">
@@ -38,36 +23,6 @@ const Table: React.FC<TableProps> = ({
     );
   }
 
-  const mobileTable = (
-    <div>
-      {products?.map((product: Product) => (
-        <div
-          key={product.title}
-          className="p-4 bg-white mr-4 ml-4 border-b even:bg-gray-50"
-        >
-          <div>
-            <Checkbox
-              checked={checkedProducts[product.id] || false}
-              onChange={() => handleCheckboxChange(product.id)}
-            />
-          </div>
-          <div>
-            <strong>Title:</strong> {product.title}
-          </div>
-          <div>
-            <strong>Brand:</strong> {product.brand}
-          </div>
-          <div>
-            <strong>Discount:</strong> {product.discountPercentage}%
-          </div>
-          <div>
-            <strong>Price:</strong> ${product.price}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-
   const desktopTable = (
     <div className="overflow-x-auto">
       <table className="w-full text-base text-left text-gray-500 rounded-lg border">
@@ -75,7 +30,7 @@ const Table: React.FC<TableProps> = ({
           <tr>
             <th scope="col" className="px-6 py-3 text-black"></th>
             <th scope="col" className="px-6 py-3 text-black">
-              Title
+              Product
             </th>
             <th scope="col" className="px-6 py-3 text-black">
               Brand
@@ -96,8 +51,12 @@ const Table: React.FC<TableProps> = ({
             >
               <td className="px-6 py-4 whitespace-nowrap">
                 <Checkbox
-                  checked={checkedProducts[product.id] || false}
-                  onChange={() => handleCheckboxChange(product.id)}
+                  checked={checkedProductsDetails.some(
+                    (p) => p.id === product.id
+                  )}
+                  onChange={(isChecked) =>
+                    onCheckboxChange(product.id, isChecked)
+                  }
                 />
               </td>
               <td className="px-6 py-4 whitespace-nowrap">{product.title}</td>
@@ -113,10 +72,40 @@ const Table: React.FC<TableProps> = ({
     </div>
   );
 
+  const mobileTable = (
+    <div>
+      {products?.map((product: Product) => (
+        <div
+          key={product.id}
+          className="p-4 bg-white mr-4 ml-4 border-b even:bg-gray-50"
+        >
+          <div>
+            <Checkbox
+              checked={checkedProductsDetails.some((p) => p.id === product.id)}
+              onChange={(isChecked) => onCheckboxChange(product.id, isChecked)}
+            />
+          </div>
+          <div>
+            <strong>Product:</strong> {product.title}
+          </div>
+          <div>
+            <strong>Brand:</strong> {product.brand}
+          </div>
+          <div>
+            <strong>Discount:</strong> {product.discountPercentage}%
+          </div>
+          <div>
+            <strong>Price:</strong> ${product.price}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div>
-      <div className="sm:hidden">{mobileTable}</div>
       <div className="hidden sm:block">{desktopTable}</div>
+      <div className="sm:hidden">{mobileTable}</div>
     </div>
   );
 };

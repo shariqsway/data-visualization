@@ -20,6 +20,16 @@ const Chart: React.FC<ChartProps> = ({ products }) => {
           color: Colors.Primary,
           opacity: 0.9,
         },
+        hoverlabel: {
+          align: "left",
+          bordercolor: Colors.Primary,
+          bgcolor: Colors.PrimaryLight,
+          font: {
+            family: "poppins",
+            color: Colors.Primary,
+            size: 13,
+          },
+        },
       },
     ];
   };
@@ -33,7 +43,10 @@ const Chart: React.FC<ChartProps> = ({ products }) => {
           size: 13,
         },
       };
-      Plotly.newPlot("chart", chart, layout);
+      Plotly.newPlot("chart", chart, layout, {
+        displayModeBar: false,
+        responsive: true,
+      });
     }
   }, [products]);
 

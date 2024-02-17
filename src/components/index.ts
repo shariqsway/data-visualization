@@ -1,3 +1,4 @@
+export { default as Button } from "./Button";
 export { default as Chart } from "./Chart";
 export { default as Checkbox } from "./Checkbox";
 export { default as Loader } from "./Loader";
