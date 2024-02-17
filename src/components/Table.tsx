@@ -1,28 +1,18 @@
 import React from "react";
-import { Checkbox, Loader } from "../components";
+import { Checkbox } from "../components";
 import { Product } from "../types";
 
 interface TableProps {
   products: Product[];
-  loading: boolean;
   checkedProductsDetails: Product[];
   onCheckboxChange: (productId: number, isChecked: boolean) => void;
 }
 
 const Table: React.FC<TableProps> = ({
   products,
-  loading,
   checkedProductsDetails,
   onCheckboxChange,
 }) => {
-  if (loading) {
-    return (
-      <div className="w-full">
-        <Loader height="50" width="50" />
-      </div>
-    );
-  }
-
   const desktopTable = (
     <div className="overflow-x-auto">
       <table className="w-full text-base text-left text-gray-500 rounded-lg border">
