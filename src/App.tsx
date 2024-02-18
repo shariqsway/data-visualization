@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
-import { LuLineChart } from "react-icons/lu";
 import "./App.css";
-import { Chart, Loader, Pagination, Search, Table } from "./components";
+import { Chart, Header, Loader, Pagination, Search, Table } from "./components";
 import { ROWS_PER_PAGE } from "./constants";
 import { getProducts } from "./service/productService";
 import { Product } from "./types";
@@ -89,13 +88,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="header flex items-center justify-between bg-primary text-white pl-10 pr-10 pt-5 pb-5 font-poppins text-xl mb-5">
-        <div className="flex">
-          <LuLineChart size={30} />
-          <div className="ml-4">Data Visualization</div>
-        </div>
-        <p>Demo</p>
-      </div>
+      <Header />
       <div className="content-container flex flex-row mr-10 ml-10 gap-10">
         <div className="table-container w-2/3">
           <div className="flex items-center justify-between">
