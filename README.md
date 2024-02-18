@@ -1,30 +1,37 @@
-# React + TypeScript + Vite
+# Data Visualization App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project utilizes a mock products API, available at `https://dummyjson.com/products` to display information about products to its users. The project is designed with several functionalities, including:
 
-Currently, two official plugins are available:
+- Data Table
+- Bar Chart
+- Pagination
+- Lazy Loading
+- Search
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is written in TypeScript and leverages few libraries, Plotly for bar chart visualization, react-paginate for seamless pagination, and TailwindCSS for responsive, utility-first design, enhancing both functionality and aesthetics.
 
-## Expanding the ESLint configuration
+## Install dependencies
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```sh
+npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Development
+
+```sh
+npm run dev
+```
+
+Runs the app in development mode. Open [http://localhost:5173](http://localhost:5173) to view it in the browser. The page will automatically reload if you make changes to the code, and you will see the build errors and lint warnings in the console.
+
+## Build
+
+```sh
+npm run build
+```
+
+Builds the app for production to the `dist` folder. Bundles React in production mode and optimizes the build for the best performance.
+
+## Deployment
+
+This project is currently hosted on `Vercel` and can be accessed by following this [link.](https://data-visualization-weld.vercel.app/)
